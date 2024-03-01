@@ -26,10 +26,10 @@ void StartScreen() {
 		
 
 	std::cout << std::endl << std::endl;
-	std::cout << std::left << std::setw((width / 2) - 10) << "" << "N - New Game\n\n" /* Display (width/2)-10 spaces before instructions, setfill(' ') as default */ 
-						   << std::setw((width / 2) - 10) << "" << "Q - Display Questions\n\n"
-						   << std::setw((width / 2) - 10) << "" << "B - Display Board\n\n"
-						   << std::setw((width / 2) - 10) << "" << "E - Exit Game" << std::endl;
+	std::cout << std::left << std::setw((width / 2) - 10) << "" << "N - New Game\n\n" 			  /* Display (width/2)-10 spaces before instructions, setfill(' ') as default */ 
+			       << std::setw((width / 2) - 10) << "" << "Q - Display Questions\n\n"
+			       << std::setw((width / 2) - 10) << "" << "B - Display Board\n\n"
+			       << std::setw((width / 2) - 10) << "" << "E - Exit Game" << std::endl;
 }
 
 int InsertQuestionsAndAnswers(int game) {
@@ -37,7 +37,7 @@ int InsertQuestionsAndAnswers(int game) {
 	std::string Question, Answer, AnswerNumber;
 	std::ifstream QuestionsFile, AnswersFile;
 	
-	if (game == 1 || game == 9999) {                                         /* open files */
+	if (game == 1 || game == 9999) {                                        /* open files */
 		QuestionsFile.open("DarkSoulsQuestions.txt");						  
 		AnswersFile.open("DarkSoulsAnswers.txt");
 	}
@@ -47,26 +47,26 @@ int InsertQuestionsAndAnswers(int game) {
 	}
 	else {
 		std::cout << std::setw((width / 2) - 10) << "" << "SELECT YOUR GAME\n" << std::endl
-				  << std::setw((width / 2) - 10) << "" << "1.Dark Souls Series" << std::endl
-			      << std::setw((width / 2) - 10) << "" << "2.The Witcher Series" << std::endl;
+			  << std::setw((width / 2) - 10) << "" << "1.Dark Souls Series" << std::endl
+			  << std::setw((width / 2) - 10) << "" << "2.The Witcher Series" << std::endl;
 		std::cin >> game;
 		InsertQuestionsAndAnswers(game);
 	}
 		
 	if (!QuestionsFile || !AnswersFile) {
-		std::cerr << "Open File Error! Be sure that the .exe and .txt files are in the same folder" << std::endl;
+		std::cerr << "Open File Error! Be sure that the (.exe or .cpp) and .txt files are in the same folder" << std::endl;
 		return 1;
 	}
 	else {
-		while (std::getline(QuestionsFile, Question)) {            /* Read every (line) from Questions.txt and Question = line */
+		while (std::getline(QuestionsFile, Question)) {                /* Read every (line) from Questions.txt and Question = line */
 			Questions.push_back(Question);                         /* Add (line) to Questions vector */ 
 		}
-		while (AnswersFile >> AnswerNumber >> Answer) {            /* Read word by word and AnswerNumber = first word of the line
+		while (AnswersFile >> AnswerNumber >> Answer) {                /* Read word by word and AnswerNumber = first word of the line
 																							Answer = second word of the line */
 			Answers.insert(std::make_pair(AnswerNumber, Answer));  /* Make first and second words pair and add it to Answers map */
 		}
 	}
-	QuestionsFile.close();										   /* don't forget to close files */
+	QuestionsFile.close();		                                       /* don't forget to close files */
 	AnswersFile.close();
 	return 0;
 }
@@ -74,10 +74,10 @@ int InsertQuestionsAndAnswers(int game) {
 inline void DisplayInstructions() {
 
 	std::cout << std::setw((width / 2) - 10) << "" << "N - New Game\n\n"
-			  << std::setw((width / 2) - 10) << "" << "C - Continue Game\n\n"
-			  << std::setw((width / 2) - 10) << "" << "Q - Display Questions\n\n"
-			  << std::setw((width / 2) - 10) << "" << "B - Display Board\n\n"
-			  << std::setw((width / 2) - 10) << "" << "E - Exit Game" << std::endl;
+		  << std::setw((width / 2) - 10) << "" << "C - Continue Game\n\n"
+		  << std::setw((width / 2) - 10) << "" << "Q - Display Questions\n\n"
+		  << std::setw((width / 2) - 10) << "" << "B - Display Board\n\n"
+		  << std::setw((width / 2) - 10) << "" << "E - Exit Game" << std::endl;
 }
 
 void menu() {
@@ -86,7 +86,7 @@ void menu() {
 	case 'n': 
 	case 'N':
 		StartTime = std::chrono::system_clock::now();                        /* get system_clock as soon as the user presses N */
-		ElapsedTimeInPause = StartTime - StartTime;							 /* reset duration */
+		ElapsedTimeInPause = StartTime - StartTime;			     /* reset duration */
 		system("CLS");
 		Questions.clear();
 		Answers.clear();
@@ -136,7 +136,7 @@ void InvalidKey() {
 }
 
 void DisplayQuestions() {
-	for (auto s : Questions)												/* range-base loop */
+	for (auto s : Questions)					        /* range-base loop */
 		std::cout << s << std::endl;
 }
 
@@ -151,7 +151,7 @@ void DisplayBoard(std::string QuestionNumber) {
 	static constexpr int max_Row {20};              
 	static constexpr int max_Column {16};
 
-	RightAnswers.insert(std::make_pair(QuestionNumber, Answers[QuestionNumber]));  /* If the question is answered right, the answer will be placed in rightanswers container */
+	RightAnswers.insert(std::make_pair(QuestionNumber, Answers[QuestionNumber]));       /* If the question is answered right, the answer will be placed in rightanswers container */
 
 	std::cout << std::right << std::setw(13 + ((max_Column * 4 - 13) / 2)) << "ANSWERS BOARD" << std::endl;  
 	
@@ -159,7 +159,7 @@ void DisplayBoard(std::string QuestionNumber) {
 	while (k <= max_Column) { std::cout << "  - "; k++; }
 	std::cout << std::endl;
 
-	for (int row {1}; row < max_Row; row++) {                       /* The Answers Board is displayed row by row */
+	for (int row {1}; row < max_Row; row++) {                           /* The Answers Board is displayed row by row */
 		std::cout << "|   ";
 
 		for (int column {1}; column <= max_Column; column++) {      /* .count(QuestionNumber) returns 1 or 0 according to whether the answer is in RightAnswers or not */
@@ -180,8 +180,8 @@ void DisplayBoard(std::string QuestionNumber) {
 				}
 				else if (RightAnswers.count("2-") && !RightAnswers.count("7-")) {
 					std::cout << std::setw(20) << "" << "- " << RightAnswers["2-"].at(0) << " " << std::endl << "|"
-						<< std::setw(31) << "" << "| " << RightAnswers["2-"].at(1) << " |" << std::endl << "|"
-						<< std::setw(31) << "" << "| " << RightAnswers["2-"].at(2) << " |";
+						  << std::setw(31) << "" << "| " << RightAnswers["2-"].at(1) << " |" << std::endl << "|"
+						  << std::setw(31) << "" << "| " << RightAnswers["2-"].at(2) << " |";
 					row += 2;
 					column += max_Column;
 				}
@@ -190,7 +190,7 @@ void DisplayBoard(std::string QuestionNumber) {
 						std::cout << "- " << c << " ";
 					}
 					std::cout << std::endl << "|" << std::setw(31) << "" << "| " << RightAnswers["2-"].at(1) << " |"
-						<< std::endl << "|" << std::setw(31) << "" << "| " << RightAnswers["2-"].at(2) << " |";
+						  << std::endl << "|" << std::setw(31) << "" << "| " << RightAnswers["2-"].at(2) << " |";
 					row += 2;
 					column += max_Column;
 				}
@@ -609,11 +609,11 @@ int Play() {
 			continue;
 		}
 
-		for (auto s : Questions) {														   /* Clear the screen and display the chosen question */
+		for (auto s : Questions) {							       /* Clear the screen and display the chosen question */
 			if (s.substr(0, 3) == QuestionNumber || s.substr(0, 2) == QuestionNumber) {    /* to clip string > substr(starting index, length) */
 				system("CLS");
 				std::cout << s << std::endl;
-				it = std::find(Questions.begin(), Questions.end(), s);					  /* Find the address of the chosen question, std::find(start, end, find this element)  */
+				it = std::find(Questions.begin(), Questions.end(), s);		       /* Find the address of the chosen question, std::find(start, end, find this element)  */
 			}
 		}
 
@@ -625,10 +625,10 @@ int Play() {
 		if (UserAnswer == Answers[QuestionNumber]) {                                     
 			
 			static const std::string Messages[5]{ "VICTORY ACHIEVED!",
-												  "ENEMY FELLED",
-												  "YOU DEFEATED",
-												  "HEIR OF FIRE DESTROYED",
-												  "LORD OF CINDER FALLEN" };
+							      "ENEMY FELLED",
+							      "YOU DEFEATED",
+							      "HEIR OF FIRE DESTROYED",
+							      "LORD OF CINDER FALLEN" };
 
 			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 			std::cout << "\n" << Messages[rand() % 5] << std::endl << std::endl;          /* Display one message randomly */
@@ -649,15 +649,14 @@ int Play() {
 		std::cout << "\nPress Any Key to continue" << std::endl;
 		std::cout << "Press Escape to return menu" << std::endl;
 
-		if (_getch() && (GetKeyState(VK_ESCAPE) & 0x8000)) {                              /* Allow the user to pause the game */
+		if (_getch() && (GetKeyState(VK_ESCAPE) & 0x8000)) {                                  /* Allow the user to pause the game */
 			PauseTime = std::chrono::system_clock::now();
 			system("CLS");
 			DisplayInstructions();
 			Play();
 		}
-
 	}
-
+	
 	return 0;
 }
 
